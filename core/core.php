@@ -1,30 +1,19 @@
 <?php
 error_reporting(E_ALL);
-ini_set('display_errors',1);
+ini_set('display_errors',0);
 
 /* Funcion que permite establecer conexion con servidor y la base de datos */
 function getConexion(){
 
-	$strDireccionServer = $_SERVER["SERVER_ADDR"] ;
-
-	if( $strDireccionServer == "184.107.72.232" ){
-		
-		$servername = "localhost";
-		$username = "micoopeg";
-	    $password = "uByFp0XCJUwC";
-		$dbname = "micoopeg_premoraagencias";
-	}else{
-        $servername = "localhost:3307";
-		$username = "root";
-	    $password = "";
-		$dbname = "micoopeg_premoraagencias";
-    }
-
+    $servername = "localhost:3307";
+    $username = "root";
+    $password = "";
+    $dbname = "micoopeg_premoraagencias";
+    
 	$conn = mysqli_connect($servername, $username, $password, $dbname);
 	if (!$conn) {
 	    die("Connection failed: " . mysqli_connect_error());
 	}else{
-		//print "Conexion exitosa";
 		return $conn;
 	}
 }
