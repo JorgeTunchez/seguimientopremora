@@ -446,8 +446,12 @@ class lra_view{
           </div>
           <div class="modal-body" id="divContentModalDetail"></div>
           <div class="modal-footer">
-            <button type="button" id="btnsavePromesaPago" class="btn btn-primary btn-raised" onclick="savePromesaPago()">Guardar</button>
-            <button type="button" class="btn btn-primary btn-raised" onclick="openModalPromesasdePago()">Bitácora</button>
+            <button type="button" id="btnsavePromesaPago" class="btn btn-primary btn-raised" onclick="savePromesaPago()">
+              <i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar
+            </button>
+            <button type="button" class="btn btn-primary btn-raised" onclick="openModalPromesasdePago()">
+              <i class="fa fa-file-text" aria-hidden="true"></i> Bitácora
+            </button>
             <button type="button" class="btn btn-secondary btn-raised" data-dismiss="modal">Cerrar</button>
           </div>
         </div>
@@ -1109,7 +1113,11 @@ class lra_view{
                                       <td data-title="Cuota Cero" style="text-align:center; vertical-align:middle;">
                                           <?php print $strCuotaCero;?>
                                       </td>
-                                      <td style="text-align:center;"><button class="btn btn-danger btn-raised" title="Ver detalles" onclick="getDetailPrestamo('<?php print $intId?>')">Ver detalles</button></td>
+                                      <td style="text-align:center;">
+                                        <button class="btn btn-danger btn-raised" title="Ver detalles" onclick="getDetailPrestamo('<?php print $intId?>')">
+                                        <i class="fa fa-search" aria-hidden="true"></i> Ver detalles
+                                        </button>
+                                      </td>
                                   </tr>
                                   <?php
                               }

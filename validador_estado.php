@@ -337,7 +337,9 @@ class validador_view{
                     </tr>
                     <tr>
                       <td>
-                        <button id="btnValidador" name="btnValidador" class="btn btn-success btn-raised btn-block" onclick="activarValidador()">Validador de Estado</button>
+                        <button id="btnValidador" name="btnValidador" class="btn btn-success btn-raised btn-block" onclick="activarValidador()">
+                          <i class="fa fa-refresh" aria-hidden="true"></i> Validador de Estado
+                        </button>
                       </td>
                     </tr>
                   </table>

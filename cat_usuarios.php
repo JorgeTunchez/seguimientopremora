@@ -578,7 +578,11 @@ class usuarios_view{
                                             <?php $this->drawSelectTipoUsuario($intId, $intTipoUsuario);?>
                                           </div>
                                       </td>
-                                      <td style="text-align:center; vertical-align:middle;"><button class="btn btn-info btn-raised" onclick="editUsuario('<?php print $intId;?>')" title="Editar">Editar</button></td>
+                                      <td style="text-align:center; vertical-align:middle;">
+                                        <button class="btn btn-info btn-raised" onclick="editUsuario('<?php print $intId;?>')" title="Editar">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i> Editar
+                                        </button>
+                                      </td>
                                   </tr>
                                   <?php
                               }
@@ -589,10 +593,14 @@ class usuarios_view{
                   <table class="table table-sm table-hover table-condensed">
                       <tr>
                           <td>
-                              <button class="btn btn-success btn-raised btn-block" onclick="agregarUsuario()">(+) Agregar</button>
+                              <button class="btn btn-success btn-raised btn-block" onclick="agregarUsuario()">
+                                <i class="fa fa-plus" aria-hidden="true"></i> Agregar
+                              </button>
                           </td>
                           <td>
-                              <button class="btn btn-success btn-raised btn-block" onclick="checkForm()">Guardar</button>
+                              <button class="btn btn-success btn-raised btn-block" onclick="checkForm()">
+                                <i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar
+                              </button>
                           </td>
                       </tr>
                   </table>

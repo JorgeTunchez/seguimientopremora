@@ -1402,7 +1402,9 @@ class dashbaord_view{
           <div class="modal-body" id="divContentModalBlurDetalleBusqueda">
           </div>
           <div class="modal-footer">
-            <button type="button" id="btnRedirectListado" class="btn btn-info btn-raised" onclick="redirectListado()">Verificar</button>
+            <button type="button" id="btnRedirectListado" class="btn btn-info btn-raised" onclick="redirectListado()">
+            <i class="fa fa-search" aria-hidden="true"></i> Verificar
+            </button>
             <button type="button" class="btn btn-secondary btn-raised" data-dismiss="modal">Cerrar</button>
           </div>
         </div>
@@ -1627,7 +1629,11 @@ class dashbaord_view{
             <?php 
             if( isset($this->arrRolUser["MASTER"]) && $this->arrRolUser["MASTER"] == true ){
               ?>
-              <td style="text-align: center; vertical-align:middle;"><button class="btn btn-info btn-sm btn-raised" onclick="openModalDetailAPCG('<?php print $intAgencia;?>')">Ver detalles</button></td>
+              <td style="text-align: center; vertical-align:middle;">
+                <button class="btn btn-info btn-sm btn-raised" onclick="openModalDetailAPCG('<?php print $intAgencia;?>')">
+                  <i class="fa fa-search" aria-hidden="true"></i> Ver detalles
+                </button>
+              </td>
               <?php
             }
             ?>
@@ -2297,7 +2303,9 @@ class dashbaord_view{
                                     <?php print $intConteoPromesas;?>
                                 </td>
                                 <td data-title="Detalles" style="text-align:center; vertical-align:middle;">
-                                  <button class="btn btn-danger btn-raised" title="Ver detalles" onclick="redirectListRiskHigh('<?php print $intId;?>');">Ver Detalles</button>
+                                  <button class="btn btn-danger btn-raised" title="Ver detalles" onclick="redirectListRiskHigh('<?php print $intId;?>');">
+                                    <i class="fa fa-search" aria-hidden="true"></i> Ver Detalles
+                                  </button>
                                 </td>
                             </tr>
                             <?php

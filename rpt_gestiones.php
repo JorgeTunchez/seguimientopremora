@@ -934,10 +934,14 @@ class rpt_gestiones_view{
                   <br>
                   <div class="row">
                     <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" style="text-align:center; vertical-align:middle;">
-                      <button id="btngenerarreporte" class="btn btn-success btn-raised btn-block" onclick="getDetailReporte()">Generar Reporte</button>
+                      <button id="btngenerarreporte" class="btn btn-success btn-raised btn-block" onclick="getDetailReporte()">
+                        <i class="fa fa-file-text-o" aria-hidden="true"></i> Generar Reporte
+                      </button>
                     </div>
                     <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" style="text-align:center; vertical-align:middle;">
-                      <button class="btn btn-success btn-raised btn-block" id="btnExportarExcel" onclick="fntExportarData('EXCEL')" style="display:none;">Exportar a Excel</button>
+                      <button class="btn btn-success btn-raised btn-block" id="btnExportarExcel" onclick="fntExportarData('EXCEL')" style="display:none;">
+                        <i class="fa fa-file-excel-o" aria-hidden="true"></i> Exportar a Excel
+                      </button>
                     </div>
                   </div>
                 </div>

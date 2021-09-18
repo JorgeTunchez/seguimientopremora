@@ -5,10 +5,10 @@ ini_set('display_errors',0);
 /* Funcion que permite establecer conexion con servidor y la base de datos */
 function getConexion(){
 
-    $servername = "localhost:3307";
+    $servername = "localhost:3308";
     $username = "root";
     $password = "";
-    $dbname = "micoopeg_premoraagencias";
+    $dbname = "premoraagencias";
     
 	$conn = mysqli_connect($servername, $username, $password, $dbname);
 	if (!$conn) {

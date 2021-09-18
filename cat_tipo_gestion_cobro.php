@@ -428,8 +428,16 @@ class tg_cobro_view{
                                               <input class="form-control" type="text" id="txtTGNombre_<?php print $intId;?>" name="txtTGNombre_<?php print $intId;?>" value="<?php print $strNombreTipo;?>">
                                           </div>
                                       </td>
-                                      <td style="text-align:center;"><button class="btn btn-info btn-raised" onclick="editTGC('<?php print $intId;?>')" title="Editar">Editar</button></td>
-                                      <td style="text-align:center;"><button class="btn btn-danger btn-raised" onclick="deleteTCG('<?php print $intId;?>')" title="Eliminar">Eliminar</button></td>
+                                      <td style="text-align:center;">
+                                        <button class="btn btn-info btn-raised" onclick="editTGC('<?php print $intId;?>')" title="Editar">
+                                          <i class="fa fa-pencil" aria-hidden="true"></i> Editar
+                                        </button>
+                                      </td>
+                                      <td style="text-align:center;">
+                                        <button class="btn btn-danger btn-raised" onclick="deleteTCG('<?php print $intId;?>')" title="Eliminar">
+                                          <i class="fa fa-trash" aria-hidden="true"></i> Eliminar
+                                        </button>
+                                    </td>
                                   </tr>
                                   <?php
                               }
@@ -440,10 +448,14 @@ class tg_cobro_view{
                   <table class="table table-sm table-hover table-condensed">
                       <tr>
                           <td>
-                              <button class="btn btn-success btn-raised btn-block" onclick="agregarTGC()">(+) Agregar</button>
+                              <button class="btn btn-success btn-raised btn-block" onclick="agregarTGC()">
+                                <i class="fa fa-plus" aria-hidden="true"></i> Agregar
+                              </button>
                           </td>
                           <td>
-                              <button class="btn btn-success btn-raised btn-block" onclick="checkForm()">Guardar</button>
+                              <button class="btn btn-success btn-raised btn-block" onclick="checkForm()">
+                                <i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar
+                              </button>
                           </td>
                       </tr>
                   </table>

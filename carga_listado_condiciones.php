@@ -350,7 +350,9 @@ class cls_view{
                     </tr>
                     <tr>
                       <td>
-                        <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success btn-raised btn-block" onclick="procesarArchivo()">Procesar Archivo</button>
+                        <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success btn-raised btn-block" onclick="procesarArchivo()">
+                        <i class="fa fa-refresh" aria-hidden="true"></i> Procesar Archivo
+                        </button>
                       </td>
                     </tr>
                   </table>
