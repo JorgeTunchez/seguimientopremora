@@ -501,7 +501,7 @@ class usuarios_view{
                               <th style="text-align:center;">Agencia(s)</th>
                               <th style="text-align:center;">Activo</th>
                               <th style="text-align:center;">Tipo Usuario</th>
-                              <th colspan="2">&nbsp;</th>
+                              <th style="text-align:center;" colspan="2">Acciones</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -578,9 +578,9 @@ class usuarios_view{
                                             <?php $this->drawSelectTipoUsuario($intId, $intTipoUsuario);?>
                                           </div>
                                       </td>
-                                      <td style="text-align:center; vertical-align:middle;">
-                                        <button class="btn btn-info btn-raised" onclick="editUsuario('<?php print $intId;?>')" title="Editar">
-                                        <i class="fa fa-pencil" aria-hidden="true"></i> Editar
+                                      <td data-title="Acciones" style="text-align:center; vertical-align:middle;">
+                                        <button class="btn btn-info btn-raised btn-block" onclick="editUsuario('<?php print $intId;?>')" title="Editar">
+                                          <i class="fa fa-pencil" aria-hidden="true"></i> Editar
                                         </button>
                                       </td>
                                   </tr>

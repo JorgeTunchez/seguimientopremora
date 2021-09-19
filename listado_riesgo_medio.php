@@ -1065,7 +1065,7 @@ class lrm_view{
                               <th style="text-align:center;">Dias Atraso Capital</th>
                               <th style="text-align:center;">Gestiones Mes Actual</th>
                               <th style="text-align:center;">Cuota Cero</th>
-                              <th style="text-align:center;">&nbsp;</th>
+                              <th style="text-align:center;">Acciones</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -1111,7 +1111,7 @@ class lrm_view{
                                       <td data-title="Cuota Cero" style="text-align:center; vertical-align:middle;">
                                           <?php print $strCuotaCero;?>
                                       </td>
-                                      <td style="text-align:center;">
+                                      <td data-title="Acciones" style="text-align:center;">
                                         <button class="btn btn-warning btn-raised" title="Ver detalles" onclick="getDetailPrestamo('<?php print $intId?>')">
                                           <i class="fa fa-search" aria-hidden="true"></i> Ver detalles
                                         </button>

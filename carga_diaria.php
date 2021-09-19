@@ -492,8 +492,8 @@ class carga_diaria_view{
                   <table class="table table-sm table-borderless">
                     <tr>
                       <td>
-                      <h5>Subir archivo de carga diaria: </h5><br>
-                      <h5>* El archivo debe estar en formato xls o xlsx y debe de ser menor a (5000) cinco mil lineas. </h5><br>
+                        <h5>Subir archivo de carga diaria: </h5><br>
+                        <h5>* El archivo debe estar en formato xls o xlsx y debe de ser menor a (5000) cinco mil lineas. </h5><br>
                       </td>
                     </tr>
                     <tr>
@@ -505,7 +505,7 @@ class carga_diaria_view{
                     <tr>
                       <td>
                         <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success btn-raised btn-block" onclick="procesarArchivo()">
-                        <i class="fa fa-refresh" aria-hidden="true"></i> Procesar Archivo
+                          <i class="fa fa-refresh" aria-hidden="true"></i> Procesar Archivo
                         </button>
                       </td>
                     </tr>

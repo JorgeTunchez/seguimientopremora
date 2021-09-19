@@ -348,7 +348,7 @@ class agencias_view{
                               <th style="text-align:center;">No.</th>
                               <th style="text-align:center;">Codigo</th>
                               <th style="text-align:center;">Nombre</th>
-                              <th colspan="2">&nbsp;</th>
+                              <th style="text-align:center;" colspan="2">Acciones</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -384,13 +384,11 @@ class agencias_view{
                                               <input class="form-control" type="text" id="txtNombre_<?php print $intId;?>" name="txtNombre_<?php print $intId;?>" value="<?php print $strNombre;?>">
                                           </div>
                                       </td>
-                                      <td style="text-align:center;">
-                                        <button class="btn btn-info btn-raised" onclick="editAgencia('<?php print $intId;?>')" title="Editar">
+                                      <td data-title="Acciones" style="text-align:center;">
+                                        <button class="btn btn-info btn-raised btn-block" onclick="editAgencia('<?php print $intId;?>')" title="Editar">
                                           <i class="fa fa-pencil" aria-hidden="true"></i> Editar
                                         </button>
-                                      </td>
-                                      <td style="text-align:center;">
-                                        <button class="btn btn-danger btn-raised" onclick="deleteAgencia('<?php print $intId;?>')" title="Eliminar">
+                                        <button class="btn btn-danger btn-raised btn-block" onclick="deleteAgencia('<?php print $intId;?>')" title="Eliminar">
                                           <i class="fa fa-trash" aria-hidden="true"></i> Eliminar
                                         </button>
                                       </td>

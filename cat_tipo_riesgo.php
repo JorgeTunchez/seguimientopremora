@@ -358,7 +358,7 @@ class tipo_riesgo_view{
                               <th style="text-align:center;">Rango Inicial</th>
                               <th style="text-align:center;">Rango Final</th>
                               <th style="text-align:center;">Color</th>
-                              <th colspan="2">&nbsp;</th>
+                              <th style="text-align:center;" colspan="2">Acciones</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -411,14 +411,12 @@ class tipo_riesgo_view{
                                             <input class="form-control" type="color" id="txtColor_<?php print $intId;?>" name="txtColor_<?php print $intId;?>" value="<?php print $strColor;?>">
                                           </div>
                                       </td>
-                                      <td style="text-align:center;">
-                                        <button class="btn btn-info btn-raised" onclick="editEstadoPremora('<?php print $intId;?>')" title="Editar">
-                                        <i class="fa fa-pencil" aria-hidden="true"></i> Editar
+                                      <td data-title="Acciones" style="text-align:center;">
+                                        <button class="btn btn-info btn-raised btn-block" onclick="editEstadoPremora('<?php print $intId;?>')" title="Editar">
+                                          <i class="fa fa-pencil" aria-hidden="true"></i> Editar
                                         </button>
-                                      </td>
-                                      <td style="text-align:center;">
-                                        <button class="btn btn-danger btn-raised" onclick="deleteEstadoPremora('<?php print $intId;?>')" title="Eliminar">
-                                        <i class="fa fa-trash" aria-hidden="true"></i> Eliminar
+                                        <button class="btn btn-danger btn-raised btn-block" onclick="deleteEstadoPremora('<?php print $intId;?>')" title="Eliminar">
+                                          <i class="fa fa-trash" aria-hidden="true"></i> Eliminar
                                         </button>
                                       </td>
                                   </tr>

@@ -391,7 +391,7 @@ class tg_cobro_view{
                               <th style="text-align:center;">No.</th>
                               <th style="text-align:center;">Categoria</th>
                               <th style="text-align:center;">Nombre Tipo Gestión</th>
-                              <th colspan="2">&nbsp;</th>
+                              <th style="text-align:center;" colspan="2">Acciones</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -428,16 +428,14 @@ class tg_cobro_view{
                                               <input class="form-control" type="text" id="txtTGNombre_<?php print $intId;?>" name="txtTGNombre_<?php print $intId;?>" value="<?php print $strNombreTipo;?>">
                                           </div>
                                       </td>
-                                      <td style="text-align:center;">
-                                        <button class="btn btn-info btn-raised" onclick="editTGC('<?php print $intId;?>')" title="Editar">
+                                      <td data-title="Acciones" style="text-align:center;">
+                                        <button class="btn btn-info btn-raised btn-block" onclick="editTGC('<?php print $intId;?>')" title="Editar">
                                           <i class="fa fa-pencil" aria-hidden="true"></i> Editar
                                         </button>
-                                      </td>
-                                      <td style="text-align:center;">
-                                        <button class="btn btn-danger btn-raised" onclick="deleteTCG('<?php print $intId;?>')" title="Eliminar">
+                                        <button class="btn btn-danger btn-raised btn-block" onclick="deleteTCG('<?php print $intId;?>')" title="Eliminar">
                                           <i class="fa fa-trash" aria-hidden="true"></i> Eliminar
                                         </button>
-                                    </td>
+                                      </td>
                                   </tr>
                                   <?php
                               }

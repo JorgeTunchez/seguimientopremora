@@ -436,7 +436,7 @@ class rpt_hp_view{
                   </td>
                 </tr>
                 <tr>
-                  <td>Al dia:</td>
+                  <td><b>Al dia</b></td>
                   <td>
                   <?php 
                   print $arrConteo["Con gestion"]["Al dia"]["Conteo"];
@@ -546,7 +546,7 @@ class rpt_hp_view{
               </thead>
               <tbody>
                 <tr>
-                  <td><b>Cancelado:</b></td>
+                  <td><b>Cancelado</b></td>
                   <td>
                   <?php 
                   print $arrConteo["Sin gestion"]["Cancelado"]["Conteo"];
@@ -618,7 +618,7 @@ class rpt_hp_view{
                   </td>
                 </tr>
                 <tr>
-                  <td><b>Premora:</b></td>
+                  <td><b>Premora</b></td>
                   <td>
                   <?php 
                   print $arrConteo["Sin gestion"]["Premora"]["Conteo"];
