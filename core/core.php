@@ -133,27 +133,6 @@ function getNombreUserSession($sessionName){
     return $strNameUserSession;
 }
 
-/* Funcion que permite obtener el CIF del usuario logeado */
-function getCIFUserSession($sessionName){
-    $strCIFUserSession = "";
-    if( $sessionName != '' ){
-        $conn = getConexion();
-        $strQuery = "SELECT usuarios.cif
-                       FROM usuarios 
-                            INNER JOIN session_user 
-                                    ON session_user.nombre = usuarios.nombre 
-                      WHERE session_user.nombre = '{$sessionName}'";
-        $result = mysqli_query($conn, $strQuery);
-        if( !empty($result) ){
-            while($row = mysqli_fetch_assoc($result)) {
-                $strCIFUserSession = $row["cif"];
-            }
-        }
-    }
-
-    return $strCIFUserSession;
-}
-
 /* Funcion que permite generar un password aleatorio segun el numero de caracteres como parametro */
 function generatePassword($length = 8) { 
     $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; 
