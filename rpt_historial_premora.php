@@ -139,7 +139,7 @@ class rpt_hp_model
   {
     $conn = getConexion();
     $arrUsuarios = array();
-    $strQuery = "SELECT id, nombre FROM usuarios WHERE tipo = 2 AND activo = 1";
+    $strQuery = "SELECT id, nombre FROM usuarios WHERE tipo = 2 AND activo = 1 ORDER BY nombre";
     $result = mysqli_query($conn, $strQuery);
     if (!empty($result)) {
       while ($row = mysqli_fetch_assoc($result)) {
@@ -231,7 +231,7 @@ class rpt_hp_view
     $arrUsuarios = $this->objModel->getUsuarios();
     ?>
     <select id="selectUsuarios" name="selectUsuarios" style="text-align: center;" class="form-control">
-      <option value="0">- Todos las usuarios -</option>
+      <option value="0">-- Todos los usuarios --</option>
       <?php
       reset($arrUsuarios);
       while ($rTMP = each($arrUsuarios)) {
@@ -897,17 +897,12 @@ class rpt_hp_view
                   <form id="frmFiltros" method="post"></form>
                   <div id="divFiltros">
                     <div class="row">
-                      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" style="text-align:center; vertical-align:middle;">
-                        <h4><b>Usuario</b></h4>
-                      </div>
-                      <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9" style="text-align:center; vertical-align:middle;"><?php $this->drawSelectUsuarios(); ?></div>
-                    </div>
-                    <br>
-                    <div class="row">
-                      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" style="text-align:center; vertical-align:middle;">
-                        <h4><b>Mes</b></h4>
-                      </div>
-                      <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9" style="text-align:center; vertical-align:middle;">
+                      <div class="col-xs-12 col-sm-9 col-md-4 col-lg-4" style="text-align:center; vertical-align:middle;">
+                        <label style="color:black;"><b>Usuario</b></label>
+                        <?php $this->drawSelectUsuarios(); ?>
+                      </div>  
+                      <div class="col-xs-12 col-sm-9 col-md-4 col-lg-4" style="text-align:center; vertical-align:middle;">
+                        <label style="color:black;"><b>Mes</b></label>
                         <select class="form-control" id="sltMes" name="sltMes" style="text-align:center;">
                           <option value="01">Enero</option>
                           <option value="02">Febrero</option>
@@ -923,13 +918,8 @@ class rpt_hp_view
                           <option value="12">Diciembre</option>
                         </select>
                       </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" style="text-align:center; vertical-align:middle;">
-                        <h4><b>Año</b></h4>
-                      </div>
-                      <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9" style="text-align:center; vertical-align:middle;">
+                      <div class="col-xs-12 col-sm-9 col-md-4 col-lg-4" style="text-align:center; vertical-align:middle;">
+                        <label style="color:black;"><b>Año</b></label>
                         <select class="form-control" id="sltAnio" name="sltAnio" style="text-align:center;">
                           <?php
                           $intYearNow = date("Y");
@@ -944,12 +934,12 @@ class rpt_hp_view
                     </div>
                     <br>
                     <div class="row">
-                      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" style="text-align:center; vertical-align:middle;">
+                      <div class="col-xs-12 col-sm-9 col-md-4 col-lg-4" style="text-align:center; vertical-align:middle;">
                         <button id="btngenerarreporte" class="btn btn-success btn-raised btn-block" onclick="getDetailReporte()">
                           <i class="fa fa-file-text-o" aria-hidden="true"></i> Generar Reporte
                         </button>
                       </div>
-                      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" style="text-align:center; vertical-align:middle;">
+                      <div class="col-xs-12 col-sm-9 col-md-4 col-lg-4" style="text-align:center; vertical-align:middle;">
                         <button class="btn btn-success btn-raised btn-block" id="btnExportarExcel" onclick="fntExportarData('EXCEL')" style="display:none;">
                           <i class="fa fa-file-excel-o" aria-hidden="true"></i> Exportar a Excel
                         </button>
@@ -973,7 +963,7 @@ class rpt_hp_view
           <div class="pull-right hidden-xs">
             <b>Version</b> 1.0
           </div>
-          <strong>Copyright &copy; 2020
+          <strong>Copyright &copy; <?php print date('Y')?>
         </footer>
         <!-- Add the sidebar's background. This div must be placed
           immediately after the control sidebar -->

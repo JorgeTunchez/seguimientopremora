@@ -149,7 +149,7 @@ class rpt_gestiones_model
   {
     $conn = getConexion();
     $arrUsuarios = array();
-    $strQuery = "SELECT id, nombre FROM usuarios WHERE tipo = 2 AND activo = 1";
+    $strQuery = "SELECT id, nombre FROM usuarios WHERE tipo = 2 AND activo = 1 ORDER BY nombre";
     $result = mysqli_query($conn, $strQuery);
     if (!empty($result)) {
       while ($row = mysqli_fetch_assoc($result)) {
@@ -385,7 +385,7 @@ class rpt_gestiones_view
     $arrUsuarios = $this->objModel->getUsuarios();
     ?>
     <select id="selectUsuarios" name="selectUsuarios" style="text-align: center;" class="form-control">
-      <option value="0">- Todos las usuarios -</option>
+      <option value="0">-- Todos los usuarios --</option>
       <?php
       reset($arrUsuarios);
       while ($rTMP = each($arrUsuarios)) {
@@ -405,7 +405,7 @@ class rpt_gestiones_view
     $arrTR = $this->objModel->getTipoRiesgo();
   ?>
     <select id="selectTipoRiesgo" name="selectTipoRiesgo" style="text-align: center;" class="form-control">
-      <option value="0">- Todos los tipos de riesgo -</option>
+      <option value="0">-- Todos los tipos de riesgo --</option>
       <?php
       reset($arrTR);
       while ($rTMP = each($arrTR)) {
@@ -978,48 +978,31 @@ class rpt_gestiones_view
                   <form id="frmFiltros" method="post"></form>
                   <div id="divFiltros">
                     <div class="row">
-                      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" style="text-align:center; vertical-align:middle;">
-                        <h4><b>Usuario</b></h4>
+                      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" style="text-align:center; vertical-align:middle;">
+                        <label style="color:black;"><b>Usuario</b></label>
+                        <?php $this->drawSelectUsuarios(); ?>
                       </div>
-                      <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9" style="text-align:center; vertical-align:middle;"><?php $this->drawSelectUsuarios(); ?></div>
+                      <div class="col-xs-12 col-sm-11 col-md-4 col-lg-4" style="text-align:center; vertical-align:middle;">
+                        <label style="color:black;"><b>Tipo Riesgo</b></label>
+                        <?php $this->drawSelectTipoRiesgo(); ?>
+                      </div>
+                      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" style="text-align:center; vertical-align:middle;">
+                        <label style="color:black;"><b>Clasificacion</b></label>
+                        <?php $this->drawSelectClasificacion(); ?>
+                      </div>
                     </div>
                     <br>
                     <div class="row">
-                      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" style="text-align:center; vertical-align:middle;">
-                        <h4><b>Tipo Riesgo</b></h4>
-                      </div>
-                      <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9" style="text-align:center; vertical-align:middle;"><?php $this->drawSelectTipoRiesgo(); ?></div>
-                    </div>
-                    <br>
-                    <div class="row">
-                      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" style="text-align:center; vertical-align:middle;">
-                        <h4><b>Clasificacion</b></h4>
-                      </div>
-                      <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9" style="text-align:center; vertical-align:middle;"><?php $this->drawSelectClasificacion(); ?></div>
-                    </div>
-                    <br>
-                    <div class="row">
-                      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" style="text-align:center; vertical-align:middle;">
-                        <h4><b>Fecha Inicial</b></h4>
-                      </div>
-                      <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9" style="text-align:center; vertical-align:middle;">
+                      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" style="text-align:center; vertical-align:middle;">
+                        <label style="color:black;"><b>Fecha Inicial</b></label>
                         <input type="date" class="form-control" id="txtFechaInicio" name="txtFechaInicio" style="text-align:center;">
                       </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" style="text-align:center; vertical-align:middle;">
-                        <h4><b>Fecha Final</b></h4>
-                      </div>
-                      <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9" style="text-align:center; vertical-align:middle;">
+                      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" style="text-align:center; vertical-align:middle;">
+                        <label style="color:black;"><b>Fecha Final</b></label>
                         <input type="date" class="form-control" id="txtFechaFinal" name="txtFechaFinal" style="text-align:center;">
                       </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" style="text-align:center; vertical-align:middle;">
-                        <h4><b>¿ Mostrar detalle ?</b></h4>
-                      </div>
-                      <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9" style="text-align:center; vertical-align:middle;">
+                      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" style="text-align:center; vertical-align:middle;">
+                        <label style="color:black;"><b>¿ Mostrar detalle ?</b></label>
                         <select id="sltMostrarDetalle" name="sltMostrarDetalle" class="form-control" style="text-align: center;">
                           <option value="Y">SI</option>
                           <option value="N">NO</option>
@@ -1028,12 +1011,12 @@ class rpt_gestiones_view
                     </div>
                     <br>
                     <div class="row">
-                      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" style="text-align:center; vertical-align:middle;">
+                      <div class="col-xs-12 col-sm-3 col-md-4 col-lg-4" style="text-align:center; vertical-align:middle;">
                         <button id="btngenerarreporte" class="btn btn-success btn-raised btn-block" onclick="getDetailReporte()">
                           <i class="fa fa-file-text-o" aria-hidden="true"></i> Generar Reporte
                         </button>
                       </div>
-                      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" style="text-align:center; vertical-align:middle;">
+                      <div class="col-xs-12 col-sm-3 col-md-4 col-lg-4" style="text-align:center; vertical-align:middle;">
                         <button class="btn btn-success btn-raised btn-block" id="btnExportarExcel" onclick="fntExportarData('EXCEL')" style="display:none;">
                           <i class="fa fa-file-excel-o" aria-hidden="true"></i> Exportar a Excel
                         </button>
@@ -1057,7 +1040,7 @@ class rpt_gestiones_view
           <div class="pull-right hidden-xs">
             <b>Version</b> 1.0
           </div>
-          <strong>Copyright &copy; 2020
+          <strong>Copyright &copy; <?php print date('Y')?>
         </footer>
         <!-- Add the sidebar's background. This div must be placed
           immediately after the control sidebar -->

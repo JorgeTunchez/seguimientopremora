@@ -277,7 +277,7 @@ function getSubcategoriasGestiones()
                    FROM subcategorias_gestiones 
                         INNER JOIN categorias_gestiones 
                                 ON subcategorias_gestiones.categoria_gestion = categorias_gestiones.id
-                  ORDER BY categorias_gestiones.nombre";
+                  ORDER BY categorias_gestiones.nombre, subcategorias_gestiones.nombre";
     $result = mysqli_query($conn, $strQuery);
     if (!empty($result)) {
         while ($row = mysqli_fetch_assoc($result)) {
