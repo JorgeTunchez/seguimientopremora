@@ -1,12 +1,12 @@
 <?php
 error_reporting(E_ALL);
-ini_set('display_errors', 0);
+ini_set('display_errors', 1);
 
 /* Funcion que permite establecer conexion con servidor y la base de datos */
 function getConexion()
 {
 
-    $servername = "localhost:3308";
+    $servername = "localhost:3306";
     $username = "root";
     $password = "";
     $dbname = "premoraagencias";
@@ -308,10 +308,9 @@ function getAgenciaByUsuario($intUsuario)
         $intCountAgencia = count($arrAgencias);
         $intCount = 0;
         $strAgencias = "";
-        reset($arrAgencias);
-        while ($rTMP = each($arrAgencias)) {
+        foreach( $arrAgencias as $key => $val ){
             $intCount++;
-            $intAgencia = $rTMP["key"];
+            $intAgencia = $key;
             if ($intCount == $intCountAgencia) {
                 $strAgencias = $strAgencias . $intAgencia;
             } else {

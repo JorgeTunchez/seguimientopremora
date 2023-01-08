@@ -387,10 +387,9 @@ class rpt_gestiones_view
     <select id="selectUsuarios" name="selectUsuarios" style="text-align: center;" class="form-control">
       <option value="0">-- Todos los usuarios --</option>
       <?php
-      reset($arrUsuarios);
-      while ($rTMP = each($arrUsuarios)) {
-        $intID =  $rTMP["key"];
-        $strNombre = utf8_encode($rTMP["value"]["NOMBRE"]);
+      foreach( $arrUsuarios as $key => $val ){
+        $intID =  $key;
+        $strNombre = utf8_encode($val["NOMBRE"]);
       ?>
         <option value="<?php print $intID; ?>"><?php print $strNombre; ?></option>
       <?php
@@ -407,10 +406,9 @@ class rpt_gestiones_view
     <select id="selectTipoRiesgo" name="selectTipoRiesgo" style="text-align: center;" class="form-control">
       <option value="0">-- Todos los tipos de riesgo --</option>
       <?php
-      reset($arrTR);
-      while ($rTMP = each($arrTR)) {
-        $intID =  $rTMP["key"];
-        $strNombre = utf8_encode($rTMP["value"]["NOMBRE"]);
+      foreach( $arrTR as $key => $val ){
+        $intID =  $key;
+        $strNombre = utf8_encode($val["NOMBRE"]);
       ?>
         <option value="<?php print $intID; ?>"><?php print $strNombre; ?></option>
       <?php
@@ -427,16 +425,14 @@ class rpt_gestiones_view
     <select id="sltClasificacion" name="sltClasificacion" class="form-control" style="text-align: center;">
       <option value="0">-- Todas las Clasificaciones --</option>
       <?php
-      reset($arrSubCategorias);
-      while ($rTMP = each($arrSubCategorias)) {
-        $strCatGestion = $rTMP["key"];
+      foreach( $arrSubCategorias as $key => $val ){
+        $strCatGestion = $key;
       ?>
         <optgroup label="<?php print $strCatGestion; ?>">
           <?php
-          reset($rTMP["value"]["DETAIL"]);
-          while ($rTMP2 = each($rTMP["value"]["DETAIL"])) {
-            $intID = $rTMP2["key"];
-            $strLabel = trim(utf8_encode($rTMP2["value"]["NOMBRE"]));
+          foreach( $val["DETAIL"] as $key2 => $val2 ){
+            $intID = $key2;
+            $strLabel = trim(utf8_encode($val2["NOMBRE"]));
           ?>
             <option value="<?php print $intID; ?>"><?php print $strLabel; ?></option>
           <?php
@@ -479,22 +475,21 @@ class rpt_gestiones_view
               <?php
               $intCount = 0;
               $sumSaldoCapital = 0;
-              reset($arrDetail);
-              while ($rTMP = each($arrDetail)) {
+              foreach( $arrDetail as $key => $val ){
                 $intCount++;
-                $strUsuario = $rTMP["value"]["USUARIO"];
-                $strPrestamo = $rTMP["value"]["PRESTAMO"];
-                $strDescripcion = $rTMP["value"]["DESCRIPCION"];
+                $strUsuario = $val["USUARIO"];
+                $strPrestamo = $val["PRESTAMO"];
+                $strDescripcion = $val["DESCRIPCION"];
 
-                $deSaldoCapital = $rTMP["value"]["SALDO_CAPITAL"];
+                $deSaldoCapital = $val["SALDO_CAPITAL"];
                 if ($deSaldoCapital == 0) {
                   $deSaldoCapital = $this->objModel->getSaldoListado($strPrestamo);
                 }
                 $sumSaldoCapital =  $sumSaldoCapital + $deSaldoCapital;
 
-                $strFecha = $rTMP["value"]["FECHA"];
-                $strClasificacion = utf8_encode($rTMP["value"]["CLASIFICACION"]);
-                $strEstado = $rTMP["value"]["ESTADO_ACTUAL"];
+                $strFecha = $val["FECHA"];
+                $strClasificacion = utf8_encode($val["CLASIFICACION"]);
+                $strEstado = $val["ESTADO_ACTUAL"];
 
                 if ($strEstado == '') {
                   $strEstado = $this->objModel->getEstadoActual($strPrestamo);
@@ -540,10 +535,9 @@ class rpt_gestiones_view
         <?php
         } else {
           $arrDetail2 = $arrDetail;
-          reset($arrDetail2);
-          while ($rTMP = each($arrDetail2)) {
-            $strPrestamo = $rTMP["value"]["PRESTAMO"];
-            $strEstado = $rTMP["value"]["ESTADO_ACTUAL"];
+          foreach( $arrDetail2 as $key => $val ){
+            $strPrestamo = $val["PRESTAMO"];
+            $strEstado = $val["ESTADO_ACTUAL"];
             if ($strEstado == '') {
               $strEstado = $this->objModel->getEstadoActual($strPrestamo);
             }
@@ -695,20 +689,17 @@ class rpt_gestiones_view
             <?php
             $arrTMP = $arrConteo;
             $intTotalRecuentoTMP = 0;
-            reset($arrTMP);
-            while ($cTMP = each($arrTMP)) {
-              reset($cTMP["value"]["SUBCATEGORIA"]);
-              while ($cTMP2 = each($cTMP["value"]["SUBCATEGORIA"])) {
-                $intRecuentoTMP = $cTMP2["value"]["CONTEO"];
+            foreach( $arrTMP as $key => $val ){
+              foreach( $val["SUBCATEGORIA"] as $key2 => $val2 ){
+                $intRecuentoTMP = $val2["CONTEO"];
                 $intTotalRecuentoTMP = $intTotalRecuentoTMP + $intRecuentoTMP;
               }
             }
 
 
             $intTotalRecuento = 0;
-            reset($arrConteo);
-            while ($sTMP = each($arrConteo)) {
-              $strCategoria = utf8_encode($sTMP["key"]);
+            foreach( $arrConteo as $key => $val ){
+              $strCategoria = utf8_encode($key);
             ?>
               <tr>
                 <td colspan="3" style="background-color: #0fcfe5; color:white; text-align:center;">
@@ -727,10 +718,9 @@ class rpt_gestiones_view
                 </td>
               </tr>
               <?php
-              reset($sTMP["value"]["SUBCATEGORIA"]);
-              while ($sTMP2 = each($sTMP["value"]["SUBCATEGORIA"])) {
-                $strSubCategoria = utf8_encode($sTMP2["key"]);
-                $intRecuento = $sTMP2["value"]["CONTEO"];
+              foreach( $val["value"]["SUBCATEGORIA"] as $key2 => $val2 ){
+                $strSubCategoria = utf8_encode($key2);
+                $intRecuento = $val2["CONTEO"];
                 $intPorcentaje = ($intRecuento / $intTotalRecuentoTMP) * 100;
                 $intPorcentaje = number_format($intPorcentaje, 2);
                 $intTotalRecuento = $intTotalRecuento + $intRecuento;

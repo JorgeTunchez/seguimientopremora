@@ -3,7 +3,7 @@ require_once("core/core.php");
 require_once("phpexcel/Classes/PHPExcel/IOFactory.php");
 error_reporting(E_ALL);
 ini_set('memory_limit', '1024M'); // or you could use 1G
-ini_set('display_errors', 0);
+ini_set('display_errors', 1);
 session_start();
 if (isset($_SESSION['user_id'])) {
   $strRolUserSession = getRolUserSession($_SESSION['user_id']);
@@ -90,9 +90,8 @@ class carga_diaria_controller
   {
     //Proceso de envio de correos a administradores
     $arrEmailAdmin = getEmailAdministradores();
-    reset($arrEmailAdmin);
-    while ($rTMP = each($arrEmailAdmin)) {
-      $strEmail = $rTMP["key"];
+    foreach( $arrEmailAdmin as $key => $val ){
+      $strEmail = $key;
       $this->objModel->sendEmailCargaExitosa($strEmail, true);
     }
   }

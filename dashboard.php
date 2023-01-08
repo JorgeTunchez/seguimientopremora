@@ -1,7 +1,7 @@
 <?php
 require_once("core/core.php");
 error_reporting(E_ALL);
-ini_set('display_errors', 0);
+ini_set('display_errors', 1);
 session_start();
 if (isset($_SESSION['user_id'])) {
   $strRolUserSession = getRolUserSession($_SESSION['user_id']);
@@ -1475,9 +1475,8 @@ class dashbaord_view
 
     $arrDetalleSCTMP = $arrDetalleSC;
     $decTotalSaldoCapitalTMP = 0;
-    reset($arrDetalleSCTMP);
-    while ($tTMP = each($arrDetalleSCTMP)) {
-      $decSaldoCapitalTMP = $tTMP["value"]["SALDO_CAPITAL"];
+    foreach( $arrDetalleSCTMP as $key => $val ){
+      $decSaldoCapitalTMP = $val["SALDO_CAPITAL"];
       $decTotalSaldoCapitalTMP = $decTotalSaldoCapitalTMP + $decSaldoCapitalTMP;
     }
 
@@ -1496,11 +1495,10 @@ class dashbaord_view
       <tbody>
         <?php
         $intCount = 0;
-        reset($arrDetalleSC);
-        while ($rTMP = each($arrDetalleSC)) {
+        foreach( $arrDetalleSC as $key => $val ){
           $intCount++;
-          $strAgencia = $rTMP["key"];
-          $decSaldoCapital = $rTMP["value"]["SALDO_CAPITAL"];
+          $strAgencia = $key;
+          $decSaldoCapital = $val["SALDO_CAPITAL"];
           $decPorcentaje = ($decSaldoCapital / $decTotalSaldoCapitalTMP) * 100;
           $decTotalSaldoCapital = $decTotalSaldoCapital + $decSaldoCapital;
         ?>
@@ -1532,9 +1530,8 @@ class dashbaord_view
 
     $arrDetalleFP = $arrConteoFromPremora;
     $decSUMAConteoTMP = 0;
-    reset($arrDetalleFP);
-    while ($sTMP = each($arrDetalleFP)) {
-      $intConteoTMP = $sTMP["value"]["CONTEO"];
+    foreach( $arrDetalleFP as $key => $val ){
+      $intConteoTMP = $val["CONTEO"];
       $decSUMAConteoTMP = $decSUMAConteoTMP + $intConteoTMP;
     }
 
@@ -1552,11 +1549,10 @@ class dashbaord_view
       <tbody>
         <?php
         $intCount = 0;
-        reset($arrConteoFromPremora);
-        while ($rTMP = each($arrConteoFromPremora)) {
+        foreach( $arrConteoFromPremora as $key => $val ){
           $intCount++;
-          $strAgencia = $rTMP["key"];
-          $intCantidad = $rTMP["value"]["CONTEO"];
+          $strAgencia = $key;
+          $intCantidad = $val["CONTEO"];
           $decPorcentaje = ($intCantidad / $decSUMAConteoTMP) * 100;
           $intCantidadFP = $intCantidadFP + $intCantidad;
         ?>
@@ -1588,9 +1584,8 @@ class dashbaord_view
 
     $arrDetallePPTMP = $arrDetallePP;
     $decSUMAConteoTMP = 0;
-    reset($arrDetallePPTMP);
-    while ($sTMP = each($arrDetallePPTMP)) {
-      $intConteoTMP = $sTMP["value"]["CONTEO"];
+    foreach( $arrDetallePPTMP as $key => $val ){
+      $intConteoTMP = $val["CONTEO"];
       $decSUMAConteoTMP = $decSUMAConteoTMP + $intConteoTMP;
     }
 
@@ -1608,11 +1603,10 @@ class dashbaord_view
       <tbody>
         <?php
         $intCount = 0;
-        reset($arrDetallePP);
-        while ($rTMP = each($arrDetallePP)) {
+        foreach( $arrDetallePP as $key => $val ){
           $intCount++;
-          $strAgencia = $rTMP["key"];
-          $intCantidad = $rTMP["value"]["CONTEO"];
+          $strAgencia = $key;
+          $intCantidad = $val["CONTEO"];
           $decPorcentaje = ($intCantidad / $decSUMAConteoTMP) * 100;
           $intCantidadPP = $intCantidadPP + $intCantidad;
         ?>
@@ -1644,9 +1638,8 @@ class dashbaord_view
 
     $arrDetallePCGTMP = $arrDetallePCG;
     $decSUMAConteoTMP = 0;
-    reset($arrDetallePCGTMP);
-    while ($sTMP = each($arrDetallePCGTMP)) {
-      $intConteoTMP = $sTMP["value"]["CONTEO"];
+    foreach( $arrDetallePCGTMP as $key => $val ){
+      $intConteoTMP = $val["CONTEO"];
       $decSUMAConteoTMP = $decSUMAConteoTMP + $intConteoTMP;
     }
 
@@ -1667,15 +1660,14 @@ class dashbaord_view
       <tbody>
         <?php
         $intCount = 0;
-        reset($arrDetallePCG);
-        while ($rTMP = each($arrDetallePCG)) {
+        foreach( $arrDetallePCG as $key => $val ){
           $intCount++;
-          $strAgencia = $rTMP["key"];
-          $intAgencia = intval($rTMP["value"]["AGENCIA"]);
-          $intCantidad = $rTMP["value"]["CONTEO"];
+          $strAgencia = $key;
+          $intAgencia = intval($val["AGENCIA"]);
+          $intCantidad = $val["CONTEO"];
           $decPorcentaje = ($intCantidad / $decSUMAConteoTMP) * 100;
           $intCantidadPCG = $intCantidadPCG + $intCantidad;
-          $decSaldoGestion = $rTMP["value"]["SALDO_CON_GESTION"];
+          $decSaldoGestion = $val["SALDO_CON_GESTION"];
           $decSaldoPCG = $decSaldoPCG + $decSaldoGestion;
         ?>
           <tr>
@@ -1719,9 +1711,9 @@ class dashbaord_view
 
     $arrDetallePSGTMP = $arrDetallePSG;
     $decSUMAConteoTMP = 0;
-    reset($arrDetallePSGTMP);
-    while ($sTMP = each($arrDetallePSGTMP)) {
-      $intConteoTMP = $sTMP["value"]["CONTEO"];
+
+    foreach( $arrDetallePSGTMP as $key => $val ){
+      $intConteoTMP = $val["CONTEO"];
       $decSUMAConteoTMP = $decSUMAConteoTMP + $intConteoTMP;
     }
 
@@ -1742,14 +1734,13 @@ class dashbaord_view
       <tbody>
         <?php
         $intCount = 0;
-        reset($arrDetallePSG);
-        while ($rTMP = each($arrDetallePSG)) {
+        foreach( $arrDetallePSG as $key => $val ){
           $intCount++;
-          $strAgencia = $rTMP["key"];
-          $intCantidad = $rTMP["value"]["CONTEO"];
+          $strAgencia = $key;
+          $intCantidad = $val["CONTEO"];
           $decPorcentaje = ($intCantidad / $decSUMAConteoTMP) * 100;
           $intCantidadPSG = $intCantidadPSG + $intCantidad;
-          $decSaldoSinGestion = $rTMP["value"]["SALDO_SIN_GESTION"];
+          $decSaldoSinGestion = $val["SALDO_SIN_GESTION"];
           $decSaldoPSG = $decSaldoPSG + $decSaldoSinGestion;
         ?>
           <tr>
@@ -1782,9 +1773,8 @@ class dashbaord_view
 
     $arrDetalleCCTMP = $arrDetalleCC;
     $decSUMAConteoTMP = 0;
-    reset($arrDetalleCCTMP);
-    while ($sTMP = each($arrDetalleCCTMP)) {
-      $intConteoTMP = $sTMP["value"]["CONTEO"];
+    foreach( $arrDetalleCCTMP as $key => $val ){
+      $intConteoTMP = $val["CONTEO"];
       $decSUMAConteoTMP = $decSUMAConteoTMP + $intConteoTMP;
     }
 
@@ -1805,14 +1795,13 @@ class dashbaord_view
       <tbody>
         <?php
         $intCount = 0;
-        reset($arrDetalleCC);
-        while ($rTMP = each($arrDetalleCC)) {
+        foreach( $arrDetalleCC as $key => $val ){
           $intCount++;
-          $strAgencia = $rTMP["key"];
-          $intCantidad = $rTMP["value"]["CONTEO"];
+          $strAgencia = $key;
+          $intCantidad = $val["CONTEO"];
           $decPorcentaje = ($intCantidad / $decSUMAConteoTMP) * 100;
           $intCantidadCC = $intCantidadCC + $intCantidad;
-          $decSaldoSinGestion = $rTMP["value"]["SALDO_SIN_GESTION"];
+          $decSaldoSinGestion = $val["SALDO_SIN_GESTION"];
           $decSaldoCC = $decSaldoCC + $decSaldoSinGestion;
         ?>
           <tr>
@@ -1845,9 +1834,8 @@ class dashbaord_view
 
     $arrDetalleAPCGTMP = $arrDetalleAPCG;
     $decSUMAConteoTMP = 0;
-    reset($arrDetalleAPCGTMP);
-    while ($sTMP = each($arrDetalleAPCGTMP)) {
-      $intConteoTMP = $sTMP["value"]["CONTEO"];
+    foreach( $arrDetalleAPCGTMP as $key => $val ){
+      $intConteoTMP = $val["CONTEO"];
       $decSUMAConteoTMP = $decSUMAConteoTMP + $intConteoTMP;
     }
 
@@ -1865,11 +1853,10 @@ class dashbaord_view
       <tbody>
         <?php
         $intCount = 0;
-        reset($arrDetalleAPCG);
-        while ($rTMP = each($arrDetalleAPCG)) {
+        foreach( $arrDetalleAPCG as $key => $val ){
           $intCount++;
-          $strUsuario = $rTMP["key"];
-          $intCantidad = $rTMP["value"]["CONTEO"];
+          $strUsuario = $key;
+          $intCantidad = $val["CONTEO"];
           $decPorcentaje = ($intCantidad / $decSUMAConteoTMP) * 100;
           $intCantidadAPCG = $intCantidadAPCG + $intCantidad;
         ?>
@@ -1901,9 +1888,8 @@ class dashbaord_view
 
     $arrDetalleTMP = $arrDetalle;
     $decSUMAConteoTMP = 0;
-    reset($arrDetalleTMP);
-    while ($sTMP = each($arrDetalleTMP)) {
-      $intConteoTMP = $sTMP["value"]["CONTEO"];
+    foreach( $arrDetalleTMP as $key => $val ){
+      $intConteoTMP = $val["CONTEO"];
       $decSUMAConteoTMP = $decSUMAConteoTMP + $intConteoTMP;
     }
 
@@ -1921,11 +1907,10 @@ class dashbaord_view
       <tbody>
         <?php
         $intCount = 0;
-        reset($arrDetalle);
-        while ($rTMP = each($arrDetalle)) {
+        foreach( $arrDetalle as $key => $val ){
           $intCount++;
-          $strClasificacion = utf8_encode($rTMP["key"]);
-          $intCantidad = intval($rTMP["value"]["CONTEO"]);
+          $strClasificacion = utf8_encode($key);
+          $intCantidad = intval($val["CONTEO"]);
           $decPorcentaje = ($intCantidad / $decSUMAConteoTMP) * 100;
           $intSuma = $intSuma + $intCantidad;
         ?>
@@ -1957,9 +1942,8 @@ class dashbaord_view
 
     $arrDetalleTMP = $arrDetalle;
     $decSUMAConteoTMP = 0;
-    reset($arrDetalleTMP);
-    while ($sTMP = each($arrDetalleTMP)) {
-      $intConteoTMP = $sTMP["value"]["CONTEO"];
+    foreach( $arrDetalleTMP as $key => $val ){
+      $intConteoTMP = $val["CONTEO"];
       $decSUMAConteoTMP = $decSUMAConteoTMP + $intConteoTMP;
     }
 
@@ -1977,11 +1961,10 @@ class dashbaord_view
       <tbody>
         <?php
         $intCount = 0;
-        reset($arrDetalle);
-        while ($rTMP = each($arrDetalle)) {
+        foreach( $arrDetalle as $key => $val ){
           $intCount++;
-          $strClasificacion = utf8_encode($rTMP["key"]);
-          $intCantidad = intval($rTMP["value"]["CONTEO"]);
+          $strClasificacion = utf8_encode($key);
+          $intCantidad = intval($val["CONTEO"]);
           $decPorcentaje = ($intCantidad / $decSUMAConteoTMP) * 100;
           $intSuma = $intSuma + $intCantidad;
         ?>
@@ -2013,9 +1996,8 @@ class dashbaord_view
 
     $arrDetalleTMP = $arrDetalle;
     $decSUMAConteoTMP = 0;
-    reset($arrDetalleTMP);
-    while ($sTMP = each($arrDetalleTMP)) {
-      $intConteoTMP = $sTMP["value"]["CONTEO"];
+    foreach( $arrDetalleTMP as $key => $val ){
+      $intConteoTMP = $val["CONTEO"];
       $decSUMAConteoTMP = $decSUMAConteoTMP + $intConteoTMP;
     }
 
@@ -2033,11 +2015,10 @@ class dashbaord_view
       <tbody>
         <?php
         $intCount = 0;
-        reset($arrDetalle);
-        while ($rTMP = each($arrDetalle)) {
+        foreach( $arrDetalle as $key => $val ){
           $intCount++;
-          $strClasificacion = utf8_encode($rTMP["key"]);
-          $intCantidad = intval($rTMP["value"]["CONTEO"]);
+          $strClasificacion = utf8_encode($key);
+          $intCantidad = intval($val["CONTEO"]);
           $decPorcentaje = ($intCantidad / $decSUMAConteoTMP) * 100;
           $intSuma = $intSuma + $intCantidad;
         ?>
@@ -2353,14 +2334,13 @@ class dashbaord_view
                               $arrListadoRA = $this->objModel->getListadoRiesgoAlto();
                               $intCount = 0;
                               if (count($arrListadoRA) > 0) {
-                                reset($arrListadoRA);
-                                while ($rTMP = each($arrListadoRA)) {
+                                foreach( $arrListadoRA as $key => $val ){
                                   $intCount++;
-                                  $intId = $rTMP["key"];
-                                  $intNumeroPrestamo = $rTMP["value"]["NUMERO"];
-                                  $strAgencia = utf8_encode($rTMP["value"]["AGENCIA"]);
-                                  $strNombres = utf8_encode($rTMP["value"]["NOMBRES"]);
-                                  $intConteoPromesas = intval($rTMP["value"]["PROMESAS"]);
+                                  $intId = $key;
+                                  $intNumeroPrestamo = $val["NUMERO"];
+                                  $strAgencia = utf8_encode($val["AGENCIA"]);
+                                  $strNombres = utf8_encode($val["NOMBRES"]);
+                                  $intConteoPromesas = intval($val["PROMESAS"]);
                               ?>
                                   <tr id="trId_<?php print $intId; ?>">
                                     <td data-title="No." style="text-align:center; vertical-align:middle;">
@@ -2702,11 +2682,10 @@ class dashbaord_view
                               $intCount = count($arrLogSaldoPremora);
                               $intCorre = 0;
                               $decTotalSaldo = 0;
-                              reset($arrLogSaldoPremora);
-                              while ($rTMP = each($arrLogSaldoPremora)) {
+                              foreach( $arrLogSaldoPremora as $key => $val ){
                                 $intCorre++;
-                                $strFecha = $rTMP["key"];
-                                $decSaldo = $rTMP["value"]["SALDO"];
+                                $strFecha = $key;
+                                $decSaldo = $val["SALDO"];
                                 $decTotalSaldo = $decTotalSaldo + $decSaldo;
                                 if ($intCorre == $intCount) {
                               ?>['<?php print $strFecha; ?>', <?php print $decSaldo; ?>]
@@ -2776,11 +2755,10 @@ class dashbaord_view
                               $intCount2 = count($arrConteoGestiones);
                               $intCorre2 = 0;
                               $decTotalConteo = 0;
-                              reset($arrConteoGestiones);
-                              while ($rTMP = each($arrConteoGestiones)) {
+                              foreach( $arrConteoGestiones as $key => $val ){
                                 $intCorre++;
-                                $strFecha2 = $rTMP["key"];
-                                $intConteo2 = $rTMP["value"]["CONTEO"];
+                                $strFecha2 = $key;
+                                $intConteo2 = $val["CONTEO"];
                                 $decTotalConteo = $decTotalConteo + $intConteo2;
                                 if ($intCorre2 == $intCount2) {
                               ?>['<?php print $strFecha2; ?>', <?php print $intConteo2; ?>]

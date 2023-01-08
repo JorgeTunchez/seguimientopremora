@@ -497,16 +497,14 @@ class lra_view
   ?>
     <select id="sltClasificacion" name="sltClasificacion" class="form-control" style="text-align: center;">
       <?php
-      reset($arrSubCategorias);
-      while ($rTMP = each($arrSubCategorias)) {
-        $strCatGestion = $rTMP["key"];
+      foreach( $arrSubCategorias as $key => $val ){
+        $strCatGestion = $key;
       ?>
         <optgroup label="<?php print $strCatGestion; ?>">
           <?php
-          reset($rTMP["value"]["DETAIL"]);
-          while ($rTMP2 = each($rTMP["value"]["DETAIL"])) {
-            $intID = $rTMP2["key"];
-            $strLabel = trim(utf8_encode($rTMP2["value"]["NOMBRE"]));
+          foreach( $val["DETAIL"] as $key2 => $val2){
+            $intID = $key2;
+            $strLabel = trim(utf8_encode($val2["NOMBRE"]));
           ?>
             <option value="<?php print $intID; ?>"><?php print $strLabel; ?></option>
           <?php
@@ -841,15 +839,14 @@ class lra_view
         <tbody>
           <?php
           $intCount = 0;
-          reset($arrListadoPromesas);
-          while ($rTMP = each($arrListadoPromesas)) {
+          foreach( $arrListadoPromesas as $key => $val ){
             $intCount++;
-            $intPromesa = $rTMP["key"];
-            $strDescripcion = $rTMP["value"]["DESCRIPCION"];
-            $strFecha = $rTMP["value"]["ADD_FECHA"];
-            $strUsuario = $rTMP["value"]["USUARIO"];
-            $strSubcategoria = utf8_encode($rTMP["value"]["SUBCATEGORIA"]);
-            $strImagen = $rTMP["value"]["IMAGEN"];
+            $intPromesa = $key;
+            $strDescripcion = $val["DESCRIPCION"];
+            $strFecha = $val["ADD_FECHA"];
+            $strUsuario = $val["USUARIO"];
+            $strSubcategoria = utf8_encode($val["SUBCATEGORIA"]);
+            $strImagen = $val["IMAGEN"];
           ?>
             <tr>
               <td style="text-align:justify;  vertical-align:middle;">
@@ -1125,17 +1122,16 @@ class lra_view
                         $arrListadoRA = $this->objModel->getListadoRiesgoAlto();
                         $intCount = 0;
                         if (count($arrListadoRA) > 0) {
-                          reset($arrListadoRA);
-                          while ($rTMP = each($arrListadoRA)) {
+                          foreach( $arrListadoRA as $key => $val ){
                             $intCount++;
-                            $intId = $rTMP["key"];
-                            $intNumeroPrestamo = $rTMP["value"]["NUMERO"];
-                            $strAgencia = utf8_encode($rTMP["value"]["AGENCIA"]);
-                            $strNombres = utf8_encode($rTMP["value"]["NOMBRES"]);
-                            $decSaldoCapital = floatval($rTMP["value"]["SALDO_CAPITAL"]);
-                            $intDiasMoraCapital = intval($rTMP["value"]["DIAS_MORA_CAPITAL"]);
-                            $intConteoPromesas = intval($rTMP["value"]["PROMESAS"]);
-                            $decCapitalDesembolsado = floatval($rTMP["value"]["CAPITAL_DESEMBOLSADO"]);
+                            $intId = $key;
+                            $intNumeroPrestamo = $val["NUMERO"];
+                            $strAgencia = utf8_encode($val["AGENCIA"]);
+                            $strNombres = utf8_encode($val["NOMBRES"]);
+                            $decSaldoCapital = floatval($val["SALDO_CAPITAL"]);
+                            $intDiasMoraCapital = intval($val["DIAS_MORA_CAPITAL"]);
+                            $intConteoPromesas = intval($val["PROMESAS"]);
+                            $decCapitalDesembolsado = floatval($val["CAPITAL_DESEMBOLSADO"]);
                             $strCuotaCero = ($decSaldoCapital == $decCapitalDesembolsado) ? "SI" : "NO";
                         ?>
                             <tr id="trId_<?php print $intId; ?>">

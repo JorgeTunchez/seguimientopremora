@@ -67,9 +67,8 @@ class tipo_riesgo_controller
 
   public function process()
   {
-    reset($_POST);
-    while ($arrTMP = each($_POST)) {
-      $arrExplode = explode("_", $arrTMP['key']);
+    foreach( $_POST as $key => $val ){
+      $arrExplode = explode("_", $key);
       if ($arrExplode[0] == "hdnEstadoPremora") {
         $intEstadoPremora = $arrExplode[1];
         $strAccion = isset($_POST["hdnEstadoPremora_{$intEstadoPremora}"]) ? trim($_POST["hdnEstadoPremora_{$intEstadoPremora}"]) : '';
@@ -385,14 +384,13 @@ class tipo_riesgo_view
                         $arrEstadoPremora = $this->objModel->getEstadoPremora();
                         $intCount = 0;
                         if (count($arrEstadoPremora) > 0) {
-                          reset($arrEstadoPremora);
-                          while ($rTMP = each($arrEstadoPremora)) {
+                          foreach( $arrEstadoPremora as $key => $val ){
                             $intCount++;
-                            $intId = $rTMP["key"];
-                            $strNombre = $rTMP["value"]["NOMBRE"];
-                            $decRangoInicial = $rTMP["value"]["RANGO_INICIAL"];
-                            $decRangoFinal = $rTMP["value"]["RANGO_FINAL"];
-                            $strColor = $rTMP["value"]["COLOR"];
+                            $intId = $key;
+                            $strNombre = $val["NOMBRE"];
+                            $decRangoInicial = $val["RANGO_INICIAL"];
+                            $decRangoFinal = $val["RANGO_FINAL"];
+                            $strColor = $val["COLOR"];
                         ?>
                             <tr id="trEstadoPremora_<?php print $intId; ?>">
                               <td data-title="No." style="text-align:center; vertical-align:middle;">

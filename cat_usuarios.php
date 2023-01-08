@@ -67,9 +67,8 @@ class usuarios_controller
 
   public function process()
   {
-    reset($_POST);
-    while ($arrTMP = each($_POST)) {
-      $arrExplode = explode("_", $arrTMP['key']);
+    foreach( $_POST as $key => $val ){
+      $arrExplode = explode("_", $key);
       if ($arrExplode[0] == "hdnUsuario") {
         $intUsuario = $arrExplode[1];
         $strAccion = isset($_POST["hdnUsuario_{$intUsuario}"]) ? trim($_POST["hdnUsuario_{$intUsuario}"]) : '';
@@ -264,10 +263,9 @@ class usuarios_view
       <select id="selectTipoUsuario_<?php print $intID; ?>" name="selectTipoUsuario_<?php print $intID; ?>" class="form-control">
         <?php
         $arrTipoUsuario = $this->objModel->getTipoUsuario();
-        reset($arrTipoUsuario);
-        while ($rTMP = each($arrTipoUsuario)) {
-          $intID = $rTMP["key"];
-          $strNombre = $rTMP["value"]["NOMBRE"];
+        foreach( $arrTipoUsuario as $key => $val ){
+          $intID = $key;
+          $strNombre = $val["NOMBRE"];
           $strselected = ($intID == $intSelected) ? "selected" : "";
         ?>
           <option value="<?php print $intID; ?>" <?php print $strselected; ?>><?php print $strNombre; ?></option>
@@ -286,11 +284,10 @@ class usuarios_view
     ?>
     <select id="selectAgencia_<?php print $intId; ?>" name="selectAgencia_<?php print $intId; ?>[]" style="text-align: center;" class="form-control" multiple>
       <?php
-      reset($arrAgencias);
-      while ($rTMP = each($arrAgencias)) {
-        $intAgencia = $rTMP["key"];
-        $strNombreAgencia = $rTMP["value"]["NOMBRE"];
-        $strSelected = (($rTMP["key"] == $arrUsuarioAgencias[$intAgencia]["CODIGO"])) ? 'selected' : '';
+      foreach( $arrAgencias as $key => $val ){
+        $intAgencia = $key;
+        $strNombreAgencia = $val["NOMBRE"];
+        $strSelected = (($intAgencia == $arrUsuarioAgencias[$intAgencia]["CODIGO"])) ? 'selected' : '';
       ?>
         <option value="<?php print $intAgencia; ?>" <?php print $strSelected; ?>><?php print $strNombreAgencia; ?></option>
       <?php
@@ -532,17 +529,16 @@ class usuarios_view
                         $arrUsuarios = $this->objModel->getUsuarios();
                         $intCount = 0;
                         if (count($arrUsuarios) > 0) {
-                          reset($arrUsuarios);
-                          while ($rTMP = each($arrUsuarios)) {
+                          foreach( $arrUsuarios as $key => $val ){
                             $intCount++;
-                            $intId = $rTMP["key"];
-                            $strNombre = $rTMP["value"]["NOMBRE"];
-                            $strPassword = $rTMP["value"]["PASSWORD"];
-                            $arrAgencias = $rTMP["value"]["AGENCIAS"];
-                            $intActivo = intval($rTMP["value"]["ACTIVO"]);
+                            $intId = $key;
+                            $strNombre = $val["NOMBRE"];
+                            $strPassword = $val["PASSWORD"];
+                            $arrAgencias = $val["AGENCIAS"];
+                            $intActivo = intval($val["ACTIVO"]);
                             $strActivo = ($intActivo == 1) ? "Si" : "No";
-                            $intTipoUsuario = intval($rTMP["value"]["TIPOID"]);
-                            $strNombreTipoUsuario = $rTMP["value"]["TIPONOMBRE"];
+                            $intTipoUsuario = intval($val["TIPOID"]);
+                            $strNombreTipoUsuario = $val["TIPONOMBRE"];
                         ?>
                             <tr id="trUsuario_<?php print $intId; ?>">
                               <td data-title="No." style="text-align:center; vertical-align:middle;">
@@ -570,9 +566,8 @@ class usuarios_view
                                   <?php
                                   if (count($arrAgencias) > 0) {
                                     print "<ul>";
-                                    reset($arrAgencias);
-                                    while ($rTMP1 = each($arrAgencias)) {
-                                      $strUsuarioAgenciaNombre = $rTMP1["value"]["NOMBRE"];
+                                    foreach( $arrAgencias as $key => $val ){
+                                      $strUsuarioAgenciaNombre = $val["NOMBRE"];
                                       print "<li>" . $strUsuarioAgenciaNombre . '</li></br>';
                                     }
                                     print "</ul>";
@@ -734,16 +729,14 @@ class usuarios_view
           $tr.append($td);
 
           var $td = $("<td data-title='Agencia(s)' style='text-align:center;'><select class='form-control' id='selectAgencia_" + intFilasUsuario + "' name='selectAgencia_" + intFilasUsuario + "[]' style='text-align: center;' multiple><?php $arrAgencias = $this->objModel->getAgencias();
-                                                                                                                                                                                                                                          reset($arrAgencias);
-                                                                                                                                                                                                                                          while ($rTMP = each($arrAgencias)) { ?><option value='<?php print $rTMP["key"]; ?>'><?php print $rTMP["value"]["NOMBRE"]; ?></option><?php } ?></select></td>");
+                                                                                                                                                                                                                                          foreach( $arrAgencias as $key => $val ){ ?><option value='<?php print $key; ?>'><?php print $val["NOMBRE"]; ?></option><?php } ?></select></td>");
           $tr.append($td);
 
           var $td = $("<td data-title='Activo' style='text-align:center;'><select class='form-control' id='selectActivo_" + intFilasUsuario + "' name='selectActivo_" + intFilasUsuario + "' style='text-align: center;'><option value='0'>No</option><option value='1'>Si</option></select></td>");
           $tr.append($td);
 
           var $td = $("<td data-title='Tipo Usuario' style='text-align:center;'><select class='form-control' id='selectTipoUsuario_" + intFilasUsuario + "' name='selectTipoUsuario_" + intFilasUsuario + "' style='text-align: center;'><?php $arrTipoUsuario = $this->objModel->getTipoUsuario();
-                                                                                                                                                                                                                                          reset($arrTipoUsuario);
-                                                                                                                                                                                                                                          while ($rTMP = each($arrTipoUsuario)) { ?><option value='<?php print $rTMP["key"]; ?>'><?php print utf8_encode($rTMP["value"]["NOMBRE"]); ?></option><?php } ?></select></td>");
+                                                                                                                                                                                                                                          foreach( $arrTipoUsuario as $key => $val ){ ?><option value='<?php print $key; ?>'><?php print utf8_encode($val["NOMBRE"]); ?></option><?php } ?></select></td>");
           $tr.append($td);
 
           var $td = $("<td style='text-align:center; display:none;'></td>");

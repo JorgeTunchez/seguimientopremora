@@ -156,12 +156,14 @@ class rpt_hp_model
   {
     if ($strMesAnio != '') {
       $arrHistorialPremora = array();
-      $strAndUsuario = ($intUsuario != 0) ? "AND usuarios.id = {$intUsuario}" : "";
+      $strAndUsuario = ($intUsuario != 0) ? "AND usuarios.id IN({$intUsuario}) " : "";
       $conn = getConexion();
       $strQuery = "SELECT (SELECT usuarios.nombre 
                             FROM usuarios 
                                  INNER JOIN usuario_agencias ON usuario_agencias.usuario = usuarios.id 
-                           WHERE usuario_agencias.agencia = historial_premora.codigo_agencia) nombreusuario,
+                           WHERE usuario_agencias.agencia = historial_premora.codigo_agencia 
+                           $strAndUsuario
+                           LIMIT 1) nombreusuario,
                          'Con gestion' gestion,
                                  (SELECT CASE 
                                          WHEN listado_condiciones.dias_mora_capital = 0 THEN 'Al dia'
@@ -171,7 +173,7 @@ class rpt_hp_model
                                          WHEN listado_condiciones.dias_mora_capital = '' THEN 'Cancelado'
                                          ELSE 'Cancelado' END AS estado
                                     FROM listado_condiciones 
-                                   WHERE listado_condiciones.numero_prestamo = historial_premora.numero_prestamo) estado,
+                                   WHERE listado_condiciones.numero_prestamo = historial_premora.numero_prestamo LIMIT 1) estado,
                           COUNT(historial_premora.id) conteo,
                           SUM(historial_premora.saldo_actual) saldo
                      FROM historial_premora 
@@ -182,7 +184,9 @@ class rpt_hp_model
                   SELECT (SELECT usuarios.nombre 
                             FROM usuarios 
                                  INNER JOIN usuario_agencias ON usuario_agencias.usuario = usuarios.id 
-                           WHERE usuario_agencias.agencia = historial_premora.codigo_agencia) nombreusuario,
+                           WHERE usuario_agencias.agencia = historial_premora.codigo_agencia 
+                           $strAndUsuario
+                           LIMIT 1) nombreusuario,
                          'Sin gestion' gestion,
                                  (SELECT CASE WHEN listado_condiciones.dias_mora_capital = 0 THEN 'Al dia'
                                            WHEN listado_condiciones.dias_mora_capital >0 AND listado_condiciones.dias_mora_capital <=30 THEN 'Premora'
@@ -191,7 +195,7 @@ class rpt_hp_model
                                            WHEN listado_condiciones.dias_mora_capital = '' THEN 'Cancelado'
                                            ELSE 'Cancelado' END AS estado
                                   FROM listado_condiciones 
-                                 WHERE listado_condiciones.numero_prestamo = historial_premora.numero_prestamo) estado,
+                                 WHERE listado_condiciones.numero_prestamo = historial_premora.numero_prestamo LIMIT 1) estado,
                          COUNT(historial_premora.id) conteo,
                          SUM(historial_premora.saldo_actual) saldo
                     FROM historial_premora 
@@ -199,7 +203,7 @@ class rpt_hp_model
                      AND historial_premora.numero_prestamo NOT IN (SELECT DISTINCT prestamo FROM promesa_pago WHERE DATE_FORMAT(add_fecha, '%m-%Y') = '{$strMesAnio}')
                    GROUP BY nombreusuario, estado
                    )
-                   ORDER BY nombreusuario, estado";
+                   ORDER BY nombreusuario, estado"; 
       $result = mysqli_query($conn, $strQuery);
       if (!empty($result)) {
         while ($row = mysqli_fetch_assoc($result)) {
@@ -233,10 +237,9 @@ class rpt_hp_view
     <select id="selectUsuarios" name="selectUsuarios" style="text-align: center;" class="form-control">
       <option value="0">-- Todos los usuarios --</option>
       <?php
-      reset($arrUsuarios);
-      while ($rTMP = each($arrUsuarios)) {
-        $intID =  $rTMP["key"];
-        $strNombre = utf8_encode($rTMP["value"]["NOMBRE"]);
+      foreach( $arrUsuarios as $key => $val ){
+        $intID =  $key;
+        $strNombre = utf8_encode($val["NOMBRE"]);
       ?>
         <option value="<?php print $intID; ?>"><?php print $strNombre; ?></option>
       <?php
@@ -251,15 +254,12 @@ class rpt_hp_view
     if (count($arrDetail) > 0) {
       $arrTMP = $arrDetail;
       $intTotalRecuentoTMP = 0;
-      reset($arrTMP);
-      while ($cTMP = each($arrTMP)) {
-        $strTMPUsuario = $cTMP["key"];
+      foreach( $arrTMP as $key => $val ){  
+        $strTMPUsuario = $key;
         $arrTotalConteo[$strTMPUsuario] = 0;
-        reset($cTMP["value"]["GESTION"]);
-        while ($cTMP2 = each($cTMP["value"]["GESTION"])) {
-          reset($cTMP2["value"]["ESTADO"]);
-          while ($cTMP3 = each($cTMP2["value"]["ESTADO"])) {
-            $intConteo = $cTMP3["value"]["CONTEO"];
+        foreach( $val["GESTION"] as $key2 => $val2 ){
+          foreach( $val2["ESTADO"] as $key3 => $val3 ){
+            $intConteo = $val3["CONTEO"];
             $arrTotalConteo[$strTMPUsuario] = $arrTotalConteo[$strTMPUsuario] + $intConteo;
           }
         }
@@ -295,10 +295,9 @@ class rpt_hp_view
         <tbody>
           <?php
           $intCount = 0;
-          reset($arrDetail);
-          while ($rTMP = each($arrDetail)) {
+          foreach( $arrDetail as $key => $val ){
             $intCount++;
-            $strUsuario = $rTMP["key"];
+            $strUsuario = $key;
           ?>
             <tr>
               <td style="text-align:center; vertical-align:middle;">
@@ -307,9 +306,8 @@ class rpt_hp_view
               <td style="text-align:center; vertical-align:middle;"><?php print $strUsuario; ?></td>
               <td>
                 <?php
-                reset($rTMP["value"]["GESTION"]);
-                while ($rTMP2 = each($rTMP["value"]["GESTION"])) {
-                  $strGestion = $rTMP2["key"];
+                foreach( $val["GESTION"] as $key2 => $val2 ){
+                  $strGestion = $key2;
                   $intTotal = 0;
                   $intTotalSaldo = 0;
                 ?>
@@ -328,12 +326,11 @@ class rpt_hp_view
                           </thead>
                           <tbody>
                             <?php
-                            reset($rTMP2["value"]["ESTADO"]);
-                            while ($rTMP3 = each($rTMP2["value"]["ESTADO"])) {
-                              $strEstado = $rTMP3["key"];
+                            foreach( $val2["ESTADO"] as $key3 => $val3 ){
+                              $strEstado = $key3;
                               $strEstado = ($strEstado != '') ? $strEstado : "Cancelado";
-                              $intConteo = $rTMP3["value"]["CONTEO"];
-                              $decSaldo = $rTMP3["value"]["SALDO"];
+                              $intConteo = $val3["CONTEO"];
+                              $decSaldo = $val3["SALDO"];
                               $intPorcentaje = ($intConteo / $arrTotalConteo[$strUsuario]) * 100;
                               $intPorcentaje = number_format($intPorcentaje, 2);
                               $intTotal = $intTotal + $intConteo;

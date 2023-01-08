@@ -94,9 +94,8 @@ class validador_model
       }
     }
 
-    reset($arrPrestamosApp);
-    while ($rTMP = each($arrPrestamosApp)) {
-      $intPrestamo = $rTMP["key"];
+    foreach( $arrPrestamosApp as $key => $val ){
+      $intPrestamo = $key;
       $strEstado = "";
       $strQuery1 = "SELECT 
                     CASE

@@ -67,9 +67,8 @@ class agencias_controller
 
   public function process()
   {
-    reset($_POST);
-    while ($arrTMP = each($_POST)) {
-      $arrExplode = explode("_", $arrTMP['key']);
+    foreach( $_POST as $key => $val ){
+      $arrExplode = explode("_", $key);
       if ($arrExplode[0] == "hdnAgencia") {
         $intAgencia = $arrExplode[1];
         $strAccion = isset($_POST["hdnAgencia_{$intAgencia}"]) ? trim($_POST["hdnAgencia_{$intAgencia}"]) : '';
@@ -375,12 +374,11 @@ class agencias_view
                         $arrAgencias = $this->objModel->getAgencia();
                         $intCount = 0;
                         if (count($arrAgencias) > 0) {
-                          reset($arrAgencias);
-                          while ($rTMP = each($arrAgencias)) {
+                          foreach( $arrAgencias as $key => $val ){
                             $intCount++;
-                            $intId = $rTMP["key"];
-                            $intCodigo = intval($rTMP["value"]["CODIGO"]);
-                            $strNombre = $rTMP["value"]["NOMBRE"];
+                            $intId = $key;
+                            $intCodigo = intval($val["CODIGO"]);
+                            $strNombre = $val["NOMBRE"];
                         ?>
                             <tr id="trAgencia_<?php print $intId; ?>">
                               <td data-title="No." style="text-align:center; vertical-align:middle;">

@@ -67,9 +67,8 @@ class tg_cobro_controller
 
   public function process()
   {
-    reset($_POST);
-    while ($arrTMP = each($_POST)) {
-      $arrExplode = explode("_", $arrTMP['key']);
+    foreach( $_POST as $key => $val ){
+      $arrExplode = explode("_", $key);
       if ($arrExplode[0] == "hdnTipoGestion") {
         $intTipoGestion = $arrExplode[1];
         $strAccion = isset($_POST["hdnTipoGestion_{$intTipoGestion}"]) ? trim($_POST["hdnTipoGestion_{$intTipoGestion}"]) : '';
@@ -187,10 +186,9 @@ class tg_cobro_view
       <select id="selectCategoria_<?php print $intID; ?>" name="selectCategoria_<?php print $intID; ?>" class="form-control">
         <?php
         $arrCategoria = $this->objModel->getCategoriagestion();
-        reset($arrCategoria);
-        while ($rTMP = each($arrCategoria)) {
-          $intID = $rTMP["key"];
-          $strNombre = $rTMP["value"]["NOMBRE"];
+        foreach( $arrCategoria as $key => $val ){
+          $intID = $key;
+          $strNombre = $val["NOMBRE"];
           $strselected = ($intID == $intSelected) ? "selected" : "";
         ?>
           <option value="<?php print $intID; ?>" <?php print $strselected; ?>><?php print $strNombre; ?></option>
@@ -420,13 +418,12 @@ class tg_cobro_view
                         $arrCategorias = $this->objModel->getSubCategoriagestion();
                         $intCount = 0;
                         if (count($arrCategorias) > 0) {
-                          reset($arrCategorias);
-                          while ($rTMP = each($arrCategorias)) {
+                          foreach( $arrCategorias as $key => $val ){
                             $intCount++;
-                            $intId = $rTMP["key"];
-                            $intIdCategoria = $rTMP["value"]["ID_CATEGORIA"];
-                            $strNombreCategoria = utf8_encode($rTMP["value"]["CATEGORIA"]);
-                            $strNombreTipo = utf8_encode($rTMP["value"]["NOMBRE"]);
+                            $intId = $key;
+                            $intIdCategoria = $val["ID_CATEGORIA"];
+                            $strNombreCategoria = utf8_encode($val["CATEGORIA"]);
+                            $strNombreTipo = utf8_encode($val["NOMBRE"]);
                         ?>
                             <tr id="trTipoGestion_<?php print $intId; ?>">
                               <td data-title="No." style="text-align:center; vertical-align:middle;">
@@ -570,8 +567,7 @@ class tg_cobro_view
           $tr.append($td);
 
           var $td = $("<td data-title='Categoria' style='text-align:center;'><select class='form-control' id='selectCategoria_" + intFilasTGC + "' name='selectCategoria_" + intFilasTGC + "' style='text-align: center;'><?php $arrCategoria = $this->objModel->getCategoriagestion();
-                                                                                                                                                                                                                          reset($arrCategoria);
-                                                                                                                                                                                                                          while ($rTMP = each($arrCategoria)) { ?><option value='<?php print $rTMP["key"]; ?>'><?php print utf8_encode($rTMP["value"]["NOMBRE"]); ?></option><?php } ?></select></td>");
+                                                                                                                                                                                                                          foreach( $arrCategoria as $key => $val ){?><option value='<?php print $key; ?>'><?php print utf8_encode($val["NOMBRE"]); ?></option><?php } ?></select></td>");
           $tr.append($td);
 
           var $td = $("<td data-title='Nombre Tipo Gestión' style='text-align:center;'><input class='form-control' type='text' id='txtTGNombre_" + intFilasTGC + "' name='txtTGNombre_" + intFilasTGC + "'></td>");
