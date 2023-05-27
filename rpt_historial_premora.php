@@ -156,59 +156,52 @@ class rpt_hp_model
   {
     if ($strMesAnio != '') {
       $arrHistorialPremora = array();
-      $strAndUsuario = ($intUsuario != 0) ? "AND usuarios.id IN({$intUsuario}) " : "";
+      //$strAndUsuario = ($intUsuario != 0) ? "AND usuarios.id IN({$intUsuario}) " : "";
       $conn = getConexion();
-      $strQuery = "SELECT (SELECT usuarios.nombre 
-                            FROM usuarios 
-                                 INNER JOIN usuario_agencias ON usuario_agencias.usuario = usuarios.id 
-                           WHERE usuario_agencias.agencia = historial_premora.codigo_agencia 
-                           $strAndUsuario
-                           LIMIT 1) nombreusuario,
-                         'Con gestion' gestion,
-                                 (SELECT CASE 
-                                         WHEN listado_condiciones.dias_mora_capital = 0 THEN 'Al dia'
-                                         WHEN listado_condiciones.dias_mora_capital >0 AND listado_condiciones.dias_mora_capital <=30 THEN 'Premora'
-                                         WHEN listado_condiciones.dias_mora_capital >30 THEN 'En mora'
-                                         WHEN listado_condiciones.dias_mora_capital = NULL THEN 'Cancelado'
-                                         WHEN listado_condiciones.dias_mora_capital = '' THEN 'Cancelado'
-                                         ELSE 'Cancelado' END AS estado
-                                    FROM listado_condiciones 
-                                   WHERE listado_condiciones.numero_prestamo = historial_premora.numero_prestamo LIMIT 1) estado,
+      $strQuery = "SELECT (select usuarios.nombre from usuarios where usuarios.id= $intUsuario) as nombreusuario,
+                          'Con gestion' gestion,
+                          CASE WHEN listado_condiciones.dias_mora_capital = 0 THEN 'Al dia'
+                                WHEN listado_condiciones.dias_mora_capital >0 AND listado_condiciones.dias_mora_capital <=30 THEN 'Premora'
+                                WHEN listado_condiciones.dias_mora_capital >30 THEN 'En mora'
+                                WHEN listado_condiciones.dias_mora_capital IS NULL THEN 'Cancelado'
+                                WHEN listado_condiciones.dias_mora_capital = '' THEN 'Cancelado'
+                                ELSE 'Cancelado' END estado,
                           COUNT(historial_premora.id) conteo,
                           SUM(historial_premora.saldo_actual) saldo
-                     FROM historial_premora 
-                    WHERE DATE_FORMAT(historial_premora.add_fecha, '%m-%Y') = '{$strMesAnio}'
-                      AND historial_premora.numero_prestamo IN (SELECT DISTINCT prestamo FROM promesa_pago WHERE DATE_FORMAT(add_fecha, '%m-%Y') = '{$strMesAnio}' )
+                      FROM historial_premora
+                          left join listado_condiciones on historial_premora.numero_prestamo = listado_condiciones.numero_prestamo 
+                    WHERE DATE_FORMAT(historial_premora.add_fecha, '%m-%Y') = '$strMesAnio'
+                      AND historial_premora.numero_prestamo IN (SELECT DISTINCT prestamo FROM promesa_pago WHERE DATE_FORMAT(add_fecha, '%m-%Y') = '$strMesAnio' )
                     GROUP BY nombreusuario, estado
-                  UNION(
-                  SELECT (SELECT usuarios.nombre 
-                            FROM usuarios 
-                                 INNER JOIN usuario_agencias ON usuario_agencias.usuario = usuarios.id 
-                           WHERE usuario_agencias.agencia = historial_premora.codigo_agencia 
-                           $strAndUsuario
-                           LIMIT 1) nombreusuario,
-                         'Sin gestion' gestion,
-                                 (SELECT CASE WHEN listado_condiciones.dias_mora_capital = 0 THEN 'Al dia'
-                                           WHEN listado_condiciones.dias_mora_capital >0 AND listado_condiciones.dias_mora_capital <=30 THEN 'Premora'
-                                           WHEN listado_condiciones.dias_mora_capital >30 THEN 'En mora'
-                                           WHEN listado_condiciones.dias_mora_capital = NULL THEN 'Cancelado'
-                                           WHEN listado_condiciones.dias_mora_capital = '' THEN 'Cancelado'
-                                           ELSE 'Cancelado' END AS estado
-                                  FROM listado_condiciones 
-                                 WHERE listado_condiciones.numero_prestamo = historial_premora.numero_prestamo LIMIT 1) estado,
-                         COUNT(historial_premora.id) conteo,
-                         SUM(historial_premora.saldo_actual) saldo
-                    FROM historial_premora 
-                   WHERE DATE_FORMAT(historial_premora.add_fecha, '%m-%Y') = '{$strMesAnio}'
-                     AND historial_premora.numero_prestamo NOT IN (SELECT DISTINCT prestamo FROM promesa_pago WHERE DATE_FORMAT(add_fecha, '%m-%Y') = '{$strMesAnio}')
-                   GROUP BY nombreusuario, estado
-                   )
-                   ORDER BY nombreusuario, estado"; 
+                    UNION(
+                    SELECT (select usuarios.nombre from usuarios where usuarios.id= $intUsuario) as nombreusuario,
+                            'Sin gestion' gestion,
+                            CASE WHEN listado_condiciones.dias_mora_capital = 0 THEN 'Al dia'
+                            WHEN listado_condiciones.dias_mora_capital >0 AND listado_condiciones.dias_mora_capital <=30 THEN 'Premora'
+                            WHEN listado_condiciones.dias_mora_capital >30 THEN 'En mora'
+                            WHEN listado_condiciones.dias_mora_capital IS NULL THEN 'Cancelado'
+                            WHEN listado_condiciones.dias_mora_capital = '' THEN 'Cancelado'
+                            ELSE 'Cancelado' END estado,
+                            COUNT(historial_premora.id) conteo,
+                            SUM(historial_premora.saldo_actual) saldo
+                      FROM historial_premora
+                            left join listado_condiciones on historial_premora.numero_prestamo = listado_condiciones.numero_prestamo
+                      WHERE DATE_FORMAT(historial_premora.add_fecha, '%m-%Y') = '$strMesAnio'
+                    AND historial_premora.numero_prestamo NOT IN (SELECT DISTINCT prestamo FROM promesa_pago WHERE DATE_FORMAT(add_fecha, '%m-%Y') = '$strMesAnio')
+                      GROUP BY nombreusuario, gestion, estado)
+                      ORDER BY nombreusuario, gestion, estado LIMIT 5";    
       $result = mysqli_query($conn, $strQuery);
       if (!empty($result)) {
         while ($row = mysqli_fetch_assoc($result)) {
-          $arrHistorialPremora[$row["nombreusuario"]]["GESTION"][$row["gestion"]]["ESTADO"][$row["estado"]]["CONTEO"] = $row["conteo"];
-          $arrHistorialPremora[$row["nombreusuario"]]["GESTION"][$row["gestion"]]["ESTADO"][$row["estado"]]["SALDO"] = $row["saldo"];
+          $nombreUsuario = $row["nombreusuario"];
+          $gestion = $row["gestion"];
+          $estado = $row["estado"];
+          $conteo = $row["conteo"];
+          $saldo = $row["saldo"];
+
+          $arrHistorialPremora[$nombreUsuario]["GESTION"][$gestion]["ESTADO"][$estado]["CONTEO"] = $conteo;
+          $arrHistorialPremora[$nombreUsuario]["GESTION"][$gestion]["ESTADO"][$estado]["SALDO"] = $saldo;
+            
         }
       }
 
@@ -235,7 +228,6 @@ class rpt_hp_view
     $arrUsuarios = $this->objModel->getUsuarios();
     ?>
     <select id="selectUsuarios" name="selectUsuarios" style="text-align: center;" class="form-control">
-      <option value="0">-- Todos los usuarios --</option>
       <?php
       foreach( $arrUsuarios as $key => $val ){
         $intID =  $key;
@@ -286,7 +278,7 @@ class rpt_hp_view
     ?>
       <table class="table table-sm table-striped">
         <thead>
-          <tr>
+          <tr style="background-color: #20b4c5; color:white;">
             <th style="text-align:center;">No.</th>
             <th style="text-align:center;">Usuario</th>
             <th style="text-align:center;">Estadísticas</th>
@@ -407,7 +399,7 @@ class rpt_hp_view
       <table class="table">
         <tr>
           <td colspan="2" style="background-color: #20b4c5; color:white; text-align:center;">
-            <h3>Resumen Historial Premora</h3>
+            <h4>Resumen Historial Premora</h4>
           </td>
         </tr>
         <tr>
@@ -415,7 +407,7 @@ class rpt_hp_view
           <td>
             <table class="table table-striped">
               <thead>
-                <tr>
+                <tr style="background-color: #20b4c5; color:white;">
                   <td><b>Estado</b></td>
                   <td><b>Conteo</b></td>
                   <td><b>Saldo</b></td>
@@ -522,9 +514,11 @@ class rpt_hp_view
                 <tr>
                   <td><b>Total..</b></td>
                   <td>
+                    <b>
                     <?php
                     print $sumGestionConteo;
                     ?>
+                    </b>
                   </td>
                   <td>
                     <b>
@@ -538,7 +532,7 @@ class rpt_hp_view
                       ?>
                     </b>
                   </td>
-                  <td>100%</td>
+                  <td><b>100%</b></td>
                 </tr>
               </tbody>
             </table>
@@ -549,7 +543,7 @@ class rpt_hp_view
           <td>
             <table class="table table-striped">
               <thead>
-                <tr>
+                <tr style="background-color: #20b4c5; color:white;">
                   <td><b>Estado</b></td>
                   <td><b>Conteo</b></td>
                   <td><b>Saldo</b></td>
@@ -656,9 +650,11 @@ class rpt_hp_view
                 <tr>
                   <td><b>Total:</b></td>
                   <td>
+                    <b>
                     <?php
                     print $sumSGestionConteo;
                     ?>
+                    </b>
                   </td>
                   <td>
                     <b>
@@ -672,7 +668,7 @@ class rpt_hp_view
                       ?>
                     </b>
                   </td>
-                  <td>100%</td>
+                  <td><b>100%</b></td>
                 </tr>
               </tbody>
             </table>
